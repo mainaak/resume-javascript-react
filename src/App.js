@@ -5,6 +5,8 @@ import options from "./configuration/navigation";
 import {Switch, Route, Link} from 'react-router-dom';
 import {Routes} from "./configuration/route";
 import UserInformation from "./component/UserInformation";
+import {NotFound} from "./component/NotFound";
+import {Home} from "./component/Home";
 
 
 const {Header, Content, Footer} = Layout;
@@ -35,7 +37,7 @@ function App() {
                 setFooter(`There is something wrong with your internet connection...`);
                 setResponse(true);
             });
-    },)
+    },[breadcrumb])
 
     const routing = Routes.map(({path, component: C}) => {
         return <Route key={path} path={path} render={(props) => <C {...props} />}/>
@@ -68,8 +70,9 @@ function App() {
                 </Breadcrumb>
                 <div className="site-layout-content">
                     <Switch>
-                        <Route exact path={"/"} component={UserInformation}/>
+                        <Route exact path={"/"} component={Home}/>
                         {routing}
+                        <Route component={NotFound}/>
                     </Switch>
                 </div>
             </Content>

@@ -2,7 +2,7 @@ import UserInformation from "../component/UserInformation";
 
 const Routes = [
     {
-        path: `/user-information`,
+        path: `/:username`,
         component: UserInformation
     }
 ]

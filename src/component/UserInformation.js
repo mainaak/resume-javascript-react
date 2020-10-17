@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Row, DemoBox, Col, Divider} from "antd";
+import {Row, DemoBox, Col, Descriptions} from "antd";
 import {call} from "../configuration/call";
 
-const UserInformation = (props) => {
+const UserInformation = ({match: {params:{username}}}) => {
 
 
     const [userDetails, setUserDetails] = useState({
@@ -14,10 +14,8 @@ const UserInformation = (props) => {
         github_id: ""
     });
 
-    const [percent, setPercent] = useState(0);
-
     const getUserDetails = async () => {
-        return await call().get("user");
+        return await call().get(`users/${username}`);
     }
 
     useEffect(() => {
@@ -26,38 +24,16 @@ const UserInformation = (props) => {
     }, [])
 
     return (
-        // <div className={"user-information"}>
-
-        // </div>
-        <>
-            <div style={{width: "70vw", marginLeft: "auto", marginRight:"auto"}}>
-                <h2 style={{marginBottom: 0}}>My Information</h2>
-                <Divider style={{marginTop: "4px"}}/>
-            </div>
-            <Row gutter={[48, 32]} justify={"center"} style={{marginTop: 30}}>
-                <Col span={5}>
-                    {/*<DemoBox value={120}>col-4</DemoBox>*/}
-                    <div className={"user-information"}/>
-                </Col>
-                <Col span={5}>
-                    <div className={"user-information"}/>
-                </Col>
-                <Col span={5}>
-                    <div className={"user-information"}/>
-                </Col>
-            </Row>
-            <Row gutter={[48, 32]} justify={"center"} style={{marginBottom: 30}}>
-                <Col span={5}>
-                    <div className={"user-information"}/>
-                </Col>
-                <Col span={5}>
-                    <div className={"user-information"}/>
-                </Col>
-                <Col span={5}>
-                    <div className={"user-information"}/>
-                </Col>
-            </Row>
-        </>
+        <div className={"user-information"}>
+            {userDetails.name.length > 1 &&
+            <Descriptions title={userDetails.name}>
+                <Descriptions.Item span={3}>{userDetails.designation}</Descriptions.Item>
+                <Descriptions.Item span={3}>{userDetails.location}</Descriptions.Item>
+                <Descriptions.Item label="Email">{userDetails.email_id}</Descriptions.Item>
+                <Descriptions.Item label="LinkedIn">{userDetails.linked_in_id}</Descriptions.Item>
+                <Descriptions.Item label="Github">{userDetails.github_id}</Descriptions.Item>
+            </Descriptions>}
+        </div>
     )
 }
 export default UserInformation;
